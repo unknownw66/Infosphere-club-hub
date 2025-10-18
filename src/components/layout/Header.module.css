@@ -1,0 +1,214 @@
+/* This class provides the space at the top for the floating header */
+.header {
+  position: sticky;
+  top: 1rem;
+  z-index: 50;
+  max-width: 1800px; /* Increased from 1280px */
+  height: 75px;
+  margin: 0 auto;
+  padding: 0 1rem; /* Reduced horizontal padding for the container */
+  width: 100%;
+}
+
+/* The actual visual bar for the header */
+.headerContent {
+  background: linear-gradient(135deg, #e2eaf7 0%, #dbe3fd 100%); /* Slightly more transparent */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  height: 80px;
+  border-radius: 16px; /* Rounded corners */
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.logo {
+  height: 65px;
+  object-fit: contain;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  display: none; /* Hidden on mobile */
+}
+
+
+/* --- Desktop Navigation --- */
+.desktopNav {
+  display: none;
+  gap: 2.5rem;
+}
+
+.navLink {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  position: relative;
+  padding: 0.5rem 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+}
+
+.navLink.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* Increased gap to make space for logo */
+}
+
+/* FIX: Added styles for the college logo */
+.collegeLogo {
+  display: none; /* It should be hidden on mobile */
+}
+
+.contactButton {
+  display: none; /* Hide on mobile */
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.65rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.contactButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background-color: var(--color-primary-dark);
+}
+
+.contactButton span {
+  line-height: 1;
+}
+
+/* --- Mobile Navigation --- */
+.mobileNavToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: var(--color-heading);
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.mobileNavOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+.mobileNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 320px;
+  background-color: var(--color-white);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.mobileNavHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.mobileNavLogo {
+  height: 45px;
+}
+
+.closeButton {
+  font-size: 1.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobileNavList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobileNavLink {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.mobileNavLink:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.mobileNavLink.active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* --- Responsive Breakpoints --- */
+@media (min-width: 768px) {
+  .logoText {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .desktopNav {
+    display: flex;
+  }
+  .contactButton {
+    display: inline-flex;
+  }
+  .mobileNavToggle {
+    display: none;
+  }
+  /* FIX: Show the college logo on desktop */
+  .collegeLogo {
+    display: block;
+  }
+}
+

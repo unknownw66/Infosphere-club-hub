@@ -1,0 +1,81 @@
+/* ------------------------- */
+/* CSS Variables & Root --- */
+/* ------------------------- */
+:root {
+  /* Color Palette (Blue Theme based on image) */
+  --color-primary-dark: #1a3a6e;   /* Dark, deep blue from the top of the image */
+  --color-primary: #2a6f97;       /* Main, rich blue from the middle */
+  --color-primary-light: #6baed6;  /* Lighter, softer blue */
+  --color-primary-light-variant: #e0e8f0; /* Very light blue-gray for backgrounds */
+  --color-accent: #ffc107;        /* Kept the yellow accent for contrast */
+  
+  /* Typography */
+  --color-heading: #011627;        /* Almost-black for strong headings */
+  --color-text: #2c3e50;           /* Dark slate for readable body text */
+  --color-text-secondary: #7f8c8d;  /* Muted gray for subtitles */
+
+  /* Background & Borders */
+  --color-background: #dfdffd;      /* A very clean, slightly cool white */
+  --color-white: #ffffff;
+  --color-border: #dbe4f0;
+
+  /* Spacing */
+  --spacing-unit: 8px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* ------------------------- */
+/* Global Styles & Resets -- */
+/* ------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-heading);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+

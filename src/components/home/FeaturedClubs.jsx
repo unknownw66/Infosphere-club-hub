@@ -1,41 +1,80 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useGoogleSheet } from '../../hooks/useGoogleSheet';
-import Spinner from '../ui/Spinner';
-import ClubCard from '../clubs/ClubCard';
 import { Link } from 'react-router-dom';
 import styles from './FeaturedClubs.module.css';
+// FIX: Changed from { useGoogleSheet } to useGoogleSheet
+import useGoogleSheet from '../../hooks/useGoogleSheet';
+import ClubCard from '../clubs/ClubCard';
+import Spinner from '../ui/Spinner';
 import { FiArrowRight } from 'react-icons/fi';
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
 const FeaturedClubs = () => {
-  const { clubs, members, isLoading, isError } = useGoogleSheet();
+  const { allData, isLoading, error } = useGoogleSheet();
 
-  if (isLoading) return <Spinner />;
-  if (isError || !clubs || clubs.length === 0) return null;
+  const { clubs, memberCounts } = useMemo(() => {
+    if (!allData) return { clubs: [], memberCounts: {} };
+    
+    const clubs = allData.filter(item => item.Type === 'Club').slice(0, 3);
+    const memberCounts = {};
 
-  // Get first 3 clubs to feature
-  const featuredClubs = clubs.slice(0, 3);
+    clubs.forEach(club => {
+      const count = allData.filter(member => member.Type === 'Member' && member.ClubID === club.ID).length;
+      memberCounts[club.ID] = count;
+    });
+
+    return { clubs, memberCounts };
+  }, [allData]);
+
+  if (isLoading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <Spinner />
+        <p>Loading Clubs...</p>
+      </div>
+    );
+  }
+
+  if (error || clubs.length === 0) {
+    // console.error("Error loading clubs:", error);
+    return null;
+  }
 
   return (
-    <section className={styles.section}>
-      <motion.h2 
-        className={styles.title}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        Explore Our Clubs
-      </motion.h2>
-      <div className={styles.grid}>
-        {featuredClubs.map((club) => {
-          const memberCount = members.filter(m => m.ClubID === club.ID).length;
-          return <ClubCard key={club.ID} club={club} memberCount={memberCount} />;
-        })}
+    <section className={styles.clubsSection}>
+      <div className={styles.sectionHeader}>
+        <h2 className={styles.title}>Explore Our Clubs</h2>
+        <p className={styles.subtitle}>Find your passion in our technical, cultural, and sports communities.</p>
       </div>
-       <Link to="/clubs" className={styles.viewAllLink}>
-        See All Clubs <FiArrowRight />
-      </Link>
+      <motion.div 
+        className={styles.clubsGrid}
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        {clubs.map((club) => (
+            <ClubCard 
+              key={club.ID} 
+              club={club} 
+              memberCount={memberCounts[club.ID] || 0} 
+            />
+        ))}
+      </motion.div>
+      <div className={styles.viewAllLinkContainer}>
+        <Link to="/clubs" className={styles.viewAllLink}>
+          <span>View All Clubs</span>
+          <FiArrowRight />
+        </Link>
+      </div>
     </section>
   );
 };

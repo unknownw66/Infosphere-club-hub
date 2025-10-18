@@ -1,51 +1,89 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useGoogleSheet } from '../../hooks/useGoogleSheet';
-import Spinner from '../ui/Spinner';
 import { Link } from 'react-router-dom';
 import styles from './FeaturedCoordinators.module.css';
+// FIX: Changed from { useGoogleSheet } to useGoogleSheet
+import useGoogleSheet from '../../hooks/useGoogleSheet'; 
 import { FiArrowRight } from 'react-icons/fi';
+import Spinner from '../ui/Spinner';
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
 
 const FeaturedCoordinators = () => {
-  const { coordinators, isLoading, isError } = useGoogleSheet();
+  const { allData, isLoading, error } = useGoogleSheet();
 
-  if (isLoading) return <Spinner />;
-  // Don't render the section if there's an error or no data
-  if (isError || !coordinators || coordinators.length === 0) return null;
+  const coordinators = useMemo(() => {
+    if (!allData) return [];
+    // Assuming 'Coordinators' will be a Type in your new data structure
+    return allData.filter(item => item.Type === 'Coordinator').slice(0, 4); 
+  }, [allData]);
 
-  // Take the first few coordinators to feature
-  const featured = coordinators.slice(0, 3);
+  if (isLoading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <Spinner />
+        <p>Loading Coordinators...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    // It's better not to render a broken section on the homepage.
+    // console.error("Error loading coordinators:", error);
+    return null; 
+  }
+  
+  if (coordinators.length === 0) {
+    return null; // Don't render the section if there are no coordinators
+  }
 
   return (
-    <section className={styles.section}>
-      <motion.h2 
-        className={styles.title}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+    <section className={styles.coordinatorsSection}>
+      <div className={styles.sectionHeader}>
+        <h2 className={styles.title}>Faculty Coordinators</h2>
+        <p className={styles.subtitle}>Meet the mentors guiding our student clubs.</p>
+      </div>
+      <motion.div 
+        className={styles.coordinatorsGrid}
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
       >
-        Meet Our Mentors
-      </motion.h2>
-      <div className={styles.grid}>
-        {featured.map((coordinator, index) => (
-          <motion.div
-            key={coordinator.ID}
-            className={styles.card}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <img src={coordinator.PhotoURL} alt={coordinator.Name} className={styles.photo} />
-            <h3 className={styles.name}>{coordinator.Name}</h3>
-            <p className={styles.department}>{coordinator.Department}</p>
+        {coordinators.map((coordinator) => (
+          <motion.div key={coordinator.ID} className={styles.coordinatorCard} variants={itemVariants}>
+            <div className={styles.imageWrapper}>
+              <img 
+                src={coordinator.PhotoURL || `https://placehold.co/400x400/eef2ff/64748b?text=${coordinator.Name.charAt(0)}`} 
+                alt={coordinator.Name} 
+                className={styles.coordinatorImage}
+              />
+            </div>
+            <div className={styles.cardContent}>
+              <h3 className={styles.coordinatorName}>{coordinator.Name}</h3>
+              <p className={styles.coordinatorDept}>{coordinator.Department || 'Dept. of ISE'}</p>
+            </div>
           </motion.div>
         ))}
+      </motion.div>
+      <div className={styles.viewAllLinkContainer}>
+        <Link to="/coordinators" className={styles.viewAllLink}>
+          <span>View All Coordinators</span>
+          <FiArrowRight />
+        </Link>
       </div>
-      <Link to="/coordinators" className={styles.viewAllLink}>
-        View All Coordinators <FiArrowRight />
-      </Link>
     </section>
   );
 };

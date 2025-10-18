@@ -1,33 +1,115 @@
-.container {
+.announcementsPage {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.headerIcon {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+.announcementsList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   max-width: 800px;
   margin: 0 auto;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 2.5rem;
+.announcementCard {
+  display: block;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  overflow: hidden;
 }
 
-.list {
-  display: grid;
-  gap: 1.5rem;
+.announcementCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
-.card {
+.cardContent {
   padding: 1.5rem;
 }
 
-.announcementTitle {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-bottom: 0.75rem;
 }
 
-.date {
-  font-size: 0.9rem;
+.cardDescription {
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-background-light);
+  border-top: 1px solid var(--color-border);
+}
+
+.cardDate {
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--color-text-secondary);
-  margin-bottom: 1rem;
 }
 
-.content {
-  line-height: 1.7;
+.cardLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: gap 0.2s ease;
 }
+
+.announcementCard:hover .cardLink {
+  gap: 0.5rem; /* Animate arrow on hover */
+}
+
+
+.stateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  color: var(--color-text-secondary);
+  gap: 1rem;
+  background-color: var(--color-background-light);
+  border-radius: 12px;
+  border: 1px dashed var(--color-border);
+}
+

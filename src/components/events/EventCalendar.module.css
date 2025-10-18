@@ -1,0 +1,23 @@
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between each event card */
+  max-width: 800px; /* Constrains the width for better readability on large screens */
+  margin: 0 auto; /* Centers the list within the page content area */
+}
+
+.noEvents {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background-color: var(--color-background-light);
+  border-radius: 12px;
+  color: var(--color-text-secondary);
+  border: 1px dashed var(--color-border);
+  margin-top: 2rem;
+}
+
+.noEvents p {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 500;
+}

@@ -1,0 +1,61 @@
+.membersPage {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.headerIcon {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+.membersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  color: var(--color-text-secondary);
+  gap: 1rem;
+  background-color: var(--color-background-light);
+  border-radius: 12px;
+  border: 1px dashed var(--color-border);
+}
+/* ``` */
+
+/* ### Summary of the Fix:
+
+In `MembersPage.jsx`, I've wrapped the data processing in a `useMemo` hook and added a crucial check:
+
+```javascript
+const { members, clubs } = useMemo(() => {
+  if (!allData) return { members: [], clubs: [] }; // This is the fix!
+  // ... filtering logic
+}, [allData]); */

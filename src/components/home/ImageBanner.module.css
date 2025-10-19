@@ -1,63 +1,75 @@
 .banner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin: 4rem 0;
+  width: 100%;
+  padding: 0 1.5rem; /* Allows some space on the sides on mobile */
 }
 
 .imageContainer {
-    position: relative;
-    border-radius: 1rem;
-    overflow: hidden;
-    height: 400px;
-    box-shadow: var(--shadow-lg);
+  position: relative;
+  width: 100%;
+  max-width: 1280px; /* Max width of the banner */
+  margin: 0 auto; /* Center the banner */
+  aspect-ratio: 16 / 9; /* Widescreen aspect ratio */
+  border-radius: 24px; /* More pronounced rounded corners */
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background-color: var(--color-background-light); /* Fallback color */
 }
 
 .backgroundImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease-out;
-}
-
-.imageContainer:hover .backgroundImage {
-    transform: scale(1.05);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .glassPane {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 1.5rem;
-    right: 1.5rem;
-    
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    color: var(--color-white);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
+  backdrop-filter: blur(12px); /* The key glassmorphism effect */
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  color: var(--color-heading);
 }
 
 .glassPane h2 {
-    margin: 0 0 0.5rem;
-    font-size: 1.75rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
 }
 
 .glassPane p {
-    margin: 0;
-    font-size: 1rem;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  font-size: 1rem;
+  margin: 0;
+  color: var(--color-text);
 }
 
-@media (max-width: 768px) {
-    .banner {
-        grid-template-columns: 1fr;
-    }
-    .imageContainer {
-        height: 300px;
-    }
+
+/* --- Responsive Breakpoints --- */
+@media (min-width: 768px) {
+  .banner {
+    padding: 0 2rem;
+  }
+  .imageContainer {
+    aspect-ratio: 21 / 9; /* Wider for desktop */
+  }
+  .glassPane {
+    bottom: 2rem;
+    left: 2rem;
+    max-width: 50%; /* Don't let the pane get too wide */
+  }
+  .glassPane h2 {
+    font-size: 2rem;
+  }
+  .glassPane p {
+    font-size: 1.1rem;
+  }
 }
 

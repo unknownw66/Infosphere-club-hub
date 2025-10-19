@@ -1,52 +1,117 @@
+/* --- Base Card Styles --- */
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%; /* Ensures the link fills the card for a larger clickable area */
+}
+
 .card {
-  text-align: center;
+  background-color: var(--color-white);
+  border-radius: 16px; /* Slightly larger radius for a softer look */
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* --- Card Header --- */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem; /* Increased gap for better spacing */
+  padding: 1.5rem;
+}
+
+.logoContainer {
+  flex-shrink: 0;
 }
 
 .logo {
-  width: 80px;
-  height: 80px;
+  width: 55px; /* Slightly larger logo */
+  height: 55px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 1.5rem auto 1rem;
-  box-shadow: var(--shadow-md);
+  background-color: var(--color-background-light);
+  border: 3px solid var(--color-white); /* Thicker border to pop */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* More prominent shadow */
 }
 
-.content {
-  padding: 0 1.5rem 1.5rem;
+.headerText {
   flex-grow: 1;
-  display: flex;
-  flex-direction: column;
 }
 
 .name {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.3rem; /* Larger name for better hierarchy */
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0 0 0.25rem 0; /* Added bottom margin */
 }
 
 .category {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  display: inline-block;
-}
-
-.description {
-  color: var(--color-text-secondary);
-  flex-grow: 1;
-  margin-bottom: 1.5rem;
-}
-
-.link {
-  color: var(--color-primary);
+  font-size: 0.75rem; /* Slightly smaller for distinction */
   font-weight: 600;
-  text-decoration: none;
-  margin-top: auto;
+  color: var(--color-primary);
+  background-color: var(--color-primary-light-variant);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.link:hover {
-  text-decoration: underline;
+/* --- Card Body --- */
+.description {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  padding: 0 1.5rem;
+  /* Using padding for spacing instead of margin */
+  padding-bottom: 1.5rem; 
+  flex-grow: 1; /* Pushes footer to the bottom */
 }
+
+/* --- Card Footer --- */
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-background-light);
+  border-top: 1px solid var(--color-border);
+  margin-top: auto; /* Ensures footer stays at the bottom */
+}
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.viewDetails {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.arrowIcon {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover .arrowIcon {
+  transform: translateX(5px);
+}
+

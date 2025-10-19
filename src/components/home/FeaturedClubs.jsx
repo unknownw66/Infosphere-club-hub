@@ -2,17 +2,17 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import styles from './FeaturedClubs.module.css';
-// FIX: Changed from { useGoogleSheet } to useGoogleSheet
-import useGoogleSheet from '../../hooks/useGoogleSheet';
+import useGoogleSheet from '../../hooks/useGoogleSheet'; // Corrected import
 import ClubCard from '../clubs/ClubCard';
 import Spinner from '../ui/Spinner';
 import { FiArrowRight } from 'react-icons/fi';
 
 const containerVariants = {
-  hidden: {},
+  hidden: { opacity: 0 },
   visible: {
+    opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15, // Slightly slower stagger for a smoother effect
     },
   },
 };
@@ -23,28 +23,30 @@ const FeaturedClubs = () => {
   const { clubs, memberCounts } = useMemo(() => {
     if (!allData) return { clubs: [], memberCounts: {} };
     
-    const clubs = allData.filter(item => item.Type === 'Club').slice(0, 3);
+    // Get all clubs and then slice the first 3 to feature them
+    const allClubs = allData.filter(item => item.Type === 'Club');
+    const featuredClubs = allClubs.slice(0, 3);
+    
     const memberCounts = {};
+    const allMembers = allData.filter(item => item.Type === 'Member');
 
-    clubs.forEach(club => {
-      const count = allData.filter(member => member.Type === 'Member' && member.ClubID === club.ID).length;
-      memberCounts[club.ID] = count;
+    featuredClubs.forEach(club => {
+      memberCounts[club.ID] = allMembers.filter(member => member.ClubID === club.ID).length;
     });
 
-    return { clubs, memberCounts };
+    return { clubs: featuredClubs, memberCounts };
   }, [allData]);
 
   if (isLoading) {
     return (
       <div className={styles.loadingContainer}>
         <Spinner />
-        <p>Loading Clubs...</p>
       </div>
     );
   }
 
+  // Don't render the section at all if there's an error or no clubs to show
   if (error || clubs.length === 0) {
-    // console.error("Error loading clubs:", error);
     return null;
   }
 

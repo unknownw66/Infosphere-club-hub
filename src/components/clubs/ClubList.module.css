@@ -1,5 +1,28 @@
-.grid {
+/* This creates a fully responsive grid that adjusts the number of columns based on screen width */
+.clubsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  /* This is the key to a good responsive grid. It tells the browser:
+    - Create as many columns as you can fit (auto-fill).
+    - Each column should be a minimum of 320px wide.
+    - Let them grow equally to fill any remaining space (1fr).
+  */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem; /* This is the space between the cards */
 }
+
+.noClubsFound {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background-color: var(--color-background-light);
+  border-radius: 12px;
+  color: var(--color-text-secondary);
+  border: 1px dashed var(--color-border);
+  margin-top: 2rem;
+}
+
+.noClubsFound p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+

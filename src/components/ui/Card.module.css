@@ -1,0 +1,19 @@
+.card {
+  background-color: var(--color-white);
+  border-radius: 16px; /* Softer, more modern radius */
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  height: 100%; /* Ensures card can fill its container */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Ensures child elements don't break the border-radius */
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* This hover effect can be used by any component that uses the card */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+

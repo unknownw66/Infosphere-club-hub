@@ -3,64 +3,62 @@ import { fetchAndParseSheet } from '../services/googleSheetsAPI';
 import { useMemo } from 'react';
 
 // --- Transformation Functions ---
-// These functions are now updated to map the image URLs correctly.
 
+// This is the SINGLE, CORRECT version of the function.
+// It can handle columns from BOTH the master event sheet and the club-specific sheets.
 function transformEvent(item, index, defaultClubId) {
+  const clubId = item.category?.toLowerCase() || item.Sport_Type?.toLowerCase() || item.Event_Type?.toLowerCase() || defaultClubId;
+  
   return {
     Type: 'Event',
-    ID: item.File_Id || `evt-${item.Event_Name}-${index}`,
-    Name: item.Event_Name,
-    Description: item.Description,
-    Date: item.Event_Date,
-    // THE FIX: We are now mapping the 'File_URL' column to the 'PhotoURL' property.
-    PhotoURL: item.File_URL || item.URL, 
-    ClubID: item.Sport_Type?.toLowerCase() || item.Event_Type?.toLowerCase() || defaultClubId,
+    ID: item.event_id || item.File_Id || `evt-${index}`,
+    Name: item.title || item.Event_Name,
+    Description: item.description || item.Description,
+    Date: item.start || item.Event_Date,
+    PhotoURL: item.poster_url || item.File_URL || item.URL,
+    Venue: item.venue || item.Venue,
+    ClubID: clubId,
   };
 }
 
+// Placeholder for Member data transformation
 function transformMember(item, index, defaultClubId) {
-  // Placeholder: Update with actual column names when you have the Team sheets.
-  // Assuming the Member sheets also have a 'File_URL' column for photos.
   return {
     Type: 'Member',
     ID: item.File_Id || `mem-${item.MemberName}-${index}`,
     Name: item.MemberName || 'Unknown Member',
     USN: item.USN,
     ClubID: defaultClubId,
-    // THE FIX: We are mapping the 'File_URL' column to the 'PhotoURL' property.
     PhotoURL: item.File_URL || item.URL,
   };
 }
 
+// Placeholder for Achievement data transformation
 function transformAchievement(item, index, defaultClubId) {
-  // Placeholder: Update with actual column names for Achievement sheets.
   return {
     Type: 'Achievement',
     ID: `ach-${item.AchievementTitle}-${index}`,
     Name: item.AchievementTitle || 'Unnamed Achievement',
     Description: item.Description,
     ClubID: defaultClubId,
-    // THE FIX: We are mapping the 'File_URL' column to the 'PhotoURL' property.
     PhotoURL: item.File_URL || item.URL,
   };
 }
 
+// Placeholder for Project data transformation
 function transformProject(item, index) {
-  // Placeholder: Update with actual column names for Project sheets.
   return {
     Type: 'Project',
     ID: `proj-${item.ProjectName}-${index}`,
     Name: item.ProjectName || 'Unnamed Project',
     Description: item.Project_Abstract,
     ClubID: 'technical',
-    // THE FIX: We are mapping the 'File_URL' column to the 'PhotoURL' property.
     PhotoURL: item.File_URL || item.URL,
   };
 }
 
 
 // --- Configuration for all data sources ---
-// (This part remains the same)
 const DATA_SOURCES = [
   { key: 'masterEvents', url: import.meta.env.VITE_EVENT_URL, transform: (item, index) => transformEvent(item, index, 'general') },
   { key: 'culturalEvents', url: import.meta.env.VITE_CULTURAL_EVENT_URL, transform: (item, index) => transformEvent(item, index, 'cultural') },
@@ -77,7 +75,6 @@ const DATA_SOURCES = [
 
 
 const useGoogleSheet = () => {
-  // (The rest of the hook remains the same)
   const queryResults = useQueries({
     queries: DATA_SOURCES.map(source => ({
       queryKey: ['sheet', source.key],
@@ -100,7 +97,7 @@ const useGoogleSheet = () => {
     queryResults.forEach((query, i) => {
       if (query.data) {
         const { transform } = DATA_SOURCES[i];
-        const validRows = query.data.filter(item => item.File_Id || item.Event_Name || item.title || item.MemberName || item.ProjectName || item.AchievementTitle);
+        const validRows = query.data.filter(item => Object.values(item).some(val => val && val.trim() !== ''));
         const transformedData = validRows.map((item, index) => transform(item, index));
         combinedData = [...combinedData, ...transformedData];
       }
@@ -120,3 +117,4 @@ const useGoogleSheet = () => {
 };
 
 export default useGoogleSheet;
+
